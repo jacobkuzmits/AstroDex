@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Pokemon from '../components/Pokemon.astro';
+import Pokedex from 'pokedex-promise-v2';
+
+const PokeClient = new Pokedex();
+const response = await PokeClient.getPokemonsList();
+const pokemonList = response.results
+---
+
+
+
+<Layout title="AstroDex">
+	<main class='flex flex-col items-center justify-center'>
+		<!-- <pre>{JSON.stringify(pokemonList, null, 2)}</pre> --!>
+        <h1 class='text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 mb-4'>AstroDex</h1>
+        <ul>
+            {pokemonList.map((pokemon) => (
+                <li>
+                    <a href={"/pokemon/" + pokemon.name}} class='text-center underline'>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</a>
+                </li>
+            ))}
+        </ul>
+	</main>
+</Layout>

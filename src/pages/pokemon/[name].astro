@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Pokemon from '../../components/Pokemon.astro';
+import Pokedex from 'pokedex-promise-v2';
+
+const PokeClient = new Pokedex();
+
+
+export async function getStaticPaths() {
+    const PokeClient = new Pokedex();
+    const response = await PokeClient.getPokemonsList();
+    const pokemonList = response.results;
+    const paths = [];
+    pokemonList.forEach((pokemon) => {
+        paths.push({'params': {'name': pokemon.name}})
+    })
+    return paths;
+}
+
+const { name } = Astro.params;
+---
+
+
+
+<Layout title={name.charAt(0).toUpperCase() + name.slice(1)}>
+	<main class='flex flex-col items-center justify-center'>
+        <a href="/" class='underline'>Back</a>
+		<!-- <pre>{JSON.stringify(pokemonList, null, 2)}</pre> --!>
+        <Pokemon name={name} PokeClient={PokeClient} />
+	</main>
+</Layout>

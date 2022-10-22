@@ -1,0 +1,63 @@
+---
+export interface Props {
+	name: string;
+    PokeClient: object;
+}
+
+const { name, url, PokeClient } = Astro.props;
+const response = await PokeClient.getPokemonByName(name);
+const abilities = response.abilities;
+const forms = response.forms;
+const games = response.game_indices;
+const moves = response.moves;
+const image = response.sprites.front_default
+const types = response.types;
+
+const capitalize = (word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1)
+}
+---
+
+<section>
+    
+    <img width=128 height=128 src={image} />
+    <h1 class='text-2xl font-extrabold mb-2'>{name.charAt(0).toUpperCase() + name.slice(1)}</h1>
+
+    <div class='mb-4 p-0'>
+        <!-- <p class='font-bold underline'>Types</p> --!>
+        {types.map((type) => (
+            <span>{capitalize(type.type.name)} </span>
+        ))}
+    </div>
+
+    <div class='mb-4 p-0 '>
+        <p class='font-bold underline'>Abilities</p>
+        {abilities.map((ability) => (
+            <p>{capitalize(ability.ability.name.replaceAll("-", " "))}</p>
+        ))}
+    </div>
+
+    <!-- <div class='mb-4 p-0'>
+        <p class='font-bold underline'>Forms</p>
+        {forms.map((form) => (
+            <p>{form.name}</p>
+        ))}
+    </div> --!>
+
+    <!-- <div class='mb-4 p-0'>
+        <p class='font-bold underline'>Games</p>
+        {games.map((game) => (
+            <p>{game.version.name}</p>
+        ))}
+    </div> --!>
+
+    <div class='mb-4 p-0'>
+        <p class='font-bold underline'>Usable Moves</p>
+        {moves.map((move) => (
+            <p>{capitalize(move.move.name.replaceAll("-", " "))}</p>
+        ))}
+    </div>
+
+    <!-- <pre>{JSON.stringify(response, null, 4)}</pre> --!>
+</section>
+
